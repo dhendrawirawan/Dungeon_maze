@@ -1,6 +1,7 @@
 namespace SpriteKind {
     export const Sword = SpriteKind.create()
     export const EnemyBoss = SpriteKind.create()
+    export const Shield = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.EnemyBoss, function (sprite, otherSprite) {
     if (SwordUp == 1) {
@@ -11,27 +12,12 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.EnemyBoss, function (sprite, oth
         if (BossSize > 50) {
             myEnemyBoss.destroy(effects.fire, 5000)
         }
+    } else if (PlayerInvincible == 1) {
+    	
     } else {
         animation.runImageAnimation(
         mySprite,
         [img`
-            . . . . . . f f f f . . . . . . 
-            . . . . f f f 2 2 f f f . . . . 
-            . . . f f f 2 2 2 2 f f f . . . 
-            . . f f f e e e e e e f f f . . 
-            . . f f e 2 2 2 2 2 2 e e f . . 
-            . . f e 2 f f f f f f 2 e f . . 
-            . . f f f f e e e e f f f f . . 
-            . f f e f b f 4 4 f b f e f f . 
-            . f e e 4 1 f d d f 1 4 e e f . 
-            . . f f f f d d d d d e e f . . 
-            . f d d d d f 4 4 4 e e f . . . 
-            . f b b b b f 2 2 2 2 f 4 e . . 
-            . f b b b b f 2 2 2 2 f d 4 . . 
-            . . f c c f 4 5 5 4 4 f 4 4 . . 
-            . . . f f f f f f f f . . . . . 
-            . . . . . f f . . f f . . . . . 
-            `,img`
             . . . . . . . . . . . . . . . . 
             . . . . . . f f f f . . . . . . 
             . . . . f f f 2 2 f f f . . . . 
@@ -50,21 +36,21 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.EnemyBoss, function (sprite, oth
             . . . . f f f . . . . . . . . . 
             `,img`
             . . . . . . . . . . . . . . . . 
-            . . . . . . f f f f . . . . . . 
-            . . . . f f f 2 2 f f f . . . . 
-            . . . f f f 2 2 2 2 f f f . . . 
-            . . f f f e e e e e e f f f . . 
-            . . f e e 2 2 2 2 2 2 e f f . . 
-            . f f e 2 f f f f f f 2 e f f . 
-            . f f f f f e e e e f f f f f . 
-            . . f e f b f 4 4 f b f e f . . 
-            . . f e 4 1 f d d f 1 4 e f . . 
-            . . e f f f f d d d 4 e f . . . 
-            . . f d d d d f 2 2 2 f e f . . 
-            . . f b b b b f 2 2 2 f 4 e . . 
-            . . f b b b b f 5 4 4 f . . . . 
-            . . . f c c f f f f f f . . . . 
-            . . . . f f . . . f f f . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
             `,img`
             . . . . . . . . . . . . . . . . 
             . . . . . . f f f f . . . . . . 
@@ -82,14 +68,113 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.EnemyBoss, function (sprite, oth
             . . . . e e f 5 5 4 4 f . f c f 
             . . . . . f f f f f f f . f f . 
             . . . . . . . . . f f f . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
             `],
-        500,
+        3000,
         false
         )
         info.changeLifeBy(-1)
+        PlayerInvincible = 1
+    }
+})
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (GotShield == 1) {
+        animation.runImageAnimation(
+        mySprite,
+        [img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . f f f f . . . . . . 
+            . . . . f f f 2 2 f f f . . . . 
+            . . . f f f 2 2 2 2 f f f . . . 
+            . . f f f e e e e e e f f f . . 
+            . . f f e 2 2 2 2 2 2 e e f . . 
+            . f f e 2 f f f f f f 2 e f f . 
+            . f f f f f e e e e f f f f f . 
+            . . f e f b f 4 4 f b f e f . . 
+            . f f e 4 1 f d d f 1 4 e f . . 
+            f 7 f f e 4 d d d d 4 e f e . . 
+            f 7 f e f 2 2 2 2 e d d 4 e . . 
+            f 7 f 4 f 2 2 2 2 e d d e . . . 
+            f 7 f . f 4 4 5 5 f e e . . . . 
+            . f f . f f f f f f f . . . . . 
+            . . . . f f f . . . . . . . . . 
+            `,img`
+            . . . . . . f f f f . . . . . . 
+            . . . . f f f 2 2 f f f . . . . 
+            . . . f f f 2 2 2 2 f f f . . . 
+            . . f f f e e e e e e f f f . . 
+            . . f f e 2 2 2 2 2 2 e e f . . 
+            . . f e 2 f f f f f f 2 e f . . 
+            . . f f f f e e e e f f f f . . 
+            . f f e f b f 4 4 f b f e f f . 
+            . f e e 4 1 f d d f 1 4 e e f . 
+            . . f f f f d d d d d e e f . . 
+            . f 7 7 7 7 f 4 4 4 e e f . . . 
+            . f 7 4 4 7 f 2 2 2 2 f 4 e . . 
+            . f 7 4 4 7 f 2 2 2 2 f d 4 . . 
+            . . f 7 7 f 4 5 5 4 4 f 4 4 . . 
+            . . . f f f f f f f f . . . . . 
+            . . . . . f f . . f f . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . f f f f . . . . . . 
+            . . . . f f f 2 2 f f f . . . . 
+            . . . f f f 2 2 2 2 f f f . . . 
+            . . f f f e e e e e e f f f . . 
+            . . f e e 2 2 2 2 2 2 e f f . . 
+            . f f e f f f f f f f 2 e f f . 
+            . f f f f 7 7 7 7 7 f f f f f . 
+            . . f f 7 e e 4 e e 7 f e f . . 
+            . . f f 7 e 4 4 4 e 7 f e f . . 
+            . . e f 7 e e 4 e e 7 f f . . . 
+            . . f f 7 e e 4 e e 7 f e f . . 
+            . . f f f 7 e e e 7 f f 4 e . . 
+            . . f b f f 7 7 7 f f f . . . . 
+            . . . f c c f f f f f f . . . . 
+            . . . . f f . . . f f f . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . f f f f . . . . . . 
+            . . . . f f f 2 2 f f f . . . . 
+            . . . f f f 2 2 2 2 f f f . . . 
+            . . f f f e e e e e e f f f . . 
+            . . f e e 2 2 2 2 2 2 e f f . . 
+            . f f e f f f f f f f 2 e f f . 
+            . f f f f 7 7 7 7 7 f f f f f . 
+            . . f f 7 e e 4 e e 7 f e f . . 
+            . . f f 7 e 4 4 4 e 7 f e f . . 
+            . . e f 7 e e 4 e e 7 f f . . . 
+            . . f f 7 e e 4 e e 7 f e f . . 
+            . . f f f 7 e e e 7 f f 4 e . . 
+            . . f b f f 7 7 7 f f f . . . . 
+            . . . f c c f f f f f f . . . . 
+            . . . . f f . . . f f f . . . . 
+            `],
+        100,
+        true
+        )
+        ShieldUp = 1
+        mySprite.startEffect(effects.halo, 1000)
     }
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.swamp.swampTile2, function (sprite, location) {
+    BossProjectileOn = 1
     myEnemyBoss.follow(mySprite, 25)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.builtin.forestTiles25, function (sprite, location) {
@@ -211,7 +296,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.darkGroundCenter, functio
     MyEnemy.follow(mySprite, 25)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
-    if (SwordUp == 1) {
+    if (ShieldUp == 1) {
         otherSprite.destroy(effects.ashes, 500)
     } else {
         animation.runImageAnimation(
@@ -373,6 +458,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.darkGroundEast, function 
     myEnemy2.follow(mySprite, 50)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.castle.tileGrass2, function (sprite, location) {
+    ProjectileOn = 1
     animation.runImageAnimation(
     myEnemy3,
     [img`
@@ -464,30 +550,93 @@ scene.onOverlapTile(SpriteKind.Player, sprites.castle.tileGrass2, function (spri
     500,
     false
     )
-    for (let index = 0; index < 4; index++) {
-        EnemyFire = sprites.createProjectileFromSprite(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . 4 4 4 4 . . . . . . 
-            . . . . 4 4 4 5 5 4 4 4 . . . . 
-            . . . 3 3 3 3 4 4 4 4 4 4 . . . 
-            . . 4 3 3 3 3 2 2 2 1 1 4 4 . . 
-            . . 3 3 3 3 3 2 2 2 1 1 5 4 . . 
-            . 4 3 3 3 3 2 2 2 2 2 5 5 4 4 . 
-            . 4 3 3 3 2 2 2 4 4 4 4 5 4 4 . 
-            . 4 4 3 3 2 2 4 4 4 4 4 4 4 4 . 
-            . 4 2 3 3 2 2 4 4 4 4 4 4 4 4 . 
-            . . 4 2 3 3 2 4 4 4 4 4 2 4 . . 
-            . . 4 2 2 3 2 2 4 4 4 2 4 4 . . 
-            . . . 4 2 2 2 2 2 2 2 2 4 . . . 
-            . . . . 4 4 2 2 2 2 4 4 . . . . 
-            . . . . . . 4 4 4 4 . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `, myEnemy3, randint(25, 75), randint(0, 100))
-    }
+})
+controller.B.onEvent(ControllerButtonEvent.Released, function () {
+    animation.runImageAnimation(
+    mySprite,
+    [img`
+        . . . . . . f f f f . . . . . . 
+        . . . . f f f 2 2 f f f . . . . 
+        . . . f f f 2 2 2 2 f f f . . . 
+        . . f f f e e e e e e f f f . . 
+        . . f f e 2 2 2 2 2 2 e e f . . 
+        . . f e 2 f f f f f f 2 e f . . 
+        . . f f f f e e e e f f f f . . 
+        . f f e f b f 4 4 f b f e f f . 
+        . f e e 4 1 f d d f 1 4 e e f . 
+        . . f e e d d d d d d e e f . . 
+        . . . f e e 4 4 4 4 e e f . . . 
+        . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+        . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . . f f . . f f . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . f f f f . . . . . . 
+        . . . . f f f 2 2 f f f . . . . 
+        . . . f f f 2 2 2 2 f f f . . . 
+        . . f f f e e e e e e f f f . . 
+        . . f f e 2 2 2 2 2 2 e e f . . 
+        . f f e 2 f f f f f f 2 e f f . 
+        . f f f f f e e e e f f f f f . 
+        . . f e f b f 4 4 f b f e f . . 
+        . . f e 4 1 f d d f 1 4 e f . . 
+        . . . f e 4 d d d d 4 e f e . . 
+        . . f e f 2 2 2 2 e d d 4 e . . 
+        . . e 4 f 2 2 2 2 e d d e . . . 
+        . . . . f 4 4 5 5 f e e . . . . 
+        . . . . f f f f f f f . . . . . 
+        . . . . f f f . . . . . . . . . 
+        `,img`
+        . . . . . . f f f f . . . . . . 
+        . . . . f f f 2 2 f f f . . . . 
+        . . . f f f 2 2 2 2 f f f . . . 
+        . . f f f e e e e e e f f f . . 
+        . . f f e 2 2 2 2 2 2 e e f . . 
+        . . f e 2 f f f f f f 2 e f . . 
+        . . f f f f e e e e f f f f . . 
+        . f f e f b f 4 4 f b f e f f . 
+        . f e e 4 1 f d d f 1 4 e e f . 
+        . . f e e d d d d d d e e f . . 
+        . . . f e e 4 4 4 4 e e f . . . 
+        . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+        . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+        . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+        . . . . . f f f f f f . . . . . 
+        . . . . . f f . . f f . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . f f f f . . . . . . 
+        . . . . f f f 2 2 f f f . . . . 
+        . . . f f f 2 2 2 2 f f f . . . 
+        . . f f f e e e e e e f f f . . 
+        . . f e e 2 2 2 2 2 2 e f f . . 
+        . f f e 2 f f f f f f 2 e f f . 
+        . f f f f f e e e e f f f f f . 
+        . . f e f b f 4 4 f b f e f . . 
+        . . f e 4 1 f d d f 1 4 e f . . 
+        . . e f e 4 d d d d 4 e f . . . 
+        . . e 4 d d e 2 2 2 2 f e f . . 
+        . . . e d d e 2 2 2 2 f 4 e . . 
+        . . . . e e f 5 5 4 4 f . . . . 
+        . . . . . f f f f f f f . . . . 
+        . . . . . . . . . f f f . . . . 
+        `],
+    500,
+    true
+    )
+    ShieldUp = 0
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Shield, function (sprite, otherSprite) {
+    myShield.destroy(effects.none, 500)
+    GotShield = 1
+    ShieldUp = 0
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Sword, function (sprite, otherSprite) {
     mySword.destroy(effects.none, 500)
     GotSword = 1
+    SwordUp = 0
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     if (SwordUp == 1) {
@@ -571,17 +720,24 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         otherSprite.destroy(effects.disintegrate, 500)
     }
 })
+let BossFire: Sprite = null
 let EnemyFire: Sprite = null
+let ProjectileOn = 0
+let BossProjectileOn = 0
+let ShieldUp = 0
+let PlayerInvincible = 0
 let SwordUp = 0
+let myShield: Sprite = null
 let BossSize = 0
 let myEnemyBoss: Sprite = null
 let myEnemy3: Sprite = null
 let mySword: Sprite = null
 let myEnemy2: Sprite = null
 let MyEnemy: Sprite = null
+let GotShield = 0
 let GotSword = 0
 let mySprite: Sprite = null
-music.play(music.createSong(hex`0064000408090303001c0001dc00690000045e01000400000000000000000000056400010400034e000000180001291800300001273000480001254800600001246000780001297800900001279000a800012aa800c0000124c000d8000129d800f0000127f0000801012508011401012914012001012c05001c000f0a006400f4010a0000040000000000000000000000000000000002fc0000001200012212001400012214001600012216001800012218001a0001221c001e0001201e00280001222a002c0001222c002e0001222e003000012230003200012234003600012036004000012242004400012244004600012246004800012248004a00011d4c004e00011d4e005000011d52005400011d54005600011d58005a00011d5a005c00011d5e006000011d60007000012270007400011d7400780001227800900001209000a000011ea000a4000119a400a800011ea800c000011dc000d0000122d000d400011dd400d8000122d800f0000120f0000001011e00010401011904010801011e08011801011d18011c01011e1c012001012009010e02026400000403780000040a000301000000640001c80000040100000000640001640000040100000000fa0004af00000401c80000040a00019600000414000501006400140005010000002c0104dc00000401fa0000040a0001c8000004140005d0076400140005d0070000c800029001f40105c201f4010a0005900114001400039001000005c201f4010500058403050032000584030000fa00049001000005c201f4010500058403c80032000584030500640005840300009001049001000005c201f4010500058403c80064000584030500c8000584030000f40105ac0d000404a00f00000a0004ac0d2003010004a00f0000280004ac0d9001010004a00f0000280002d00700040408070f0064000408070000c80003c800c8000e7d00c80019000e64000f0032000e78000000fa00032c01c8000ee100c80019000ec8000f0032000edc000000fa0003f401c8000ea901c80019000e90010f0032000ea4010000fa0001c8000004014b000000c800012c01000401c8000000c8000190010004012c010000c80002c800000404c8000f0064000496000000c80002c2010004045e010f006400042c010000640002c409000404c4096400960004f6090000f40102b80b000404b80b64002c0104f40b0000f401022003000004200300040a000420030000ea01029001000004900100040a000490010000900102d007000410d0076400960010d0070000c800b4000000010001120c000d0001141800190001121e001f0001122400250001143000310001123a003b0001123c003d0001144800490001124e004f0001125400550001146000610001126c006d0001147800790001127e007f0001128400850001149000910001129a009b0001129c009d000114a800a9000112ae00af000112b400b5000114c000c1000112cc00cd000114d800d9000112e400e5000114f000f1000112fc00fd000114080109010112140115010114`), music.PlaybackMode.LoopingInBackground)
+music.play(music.createSong(hex`0078000408120200001c00010a006400f401640000040000000000000000000000000005000004220200000400011e04000800012208000c00012410001400011e14001800012218001c00012420002400011e24002800012228002c0001242c003000012930003400012738003c0001243c004000012540004400012444004800012048005800011d5c006000011b60006400011d64006800012068007c00011d80008400011e84008800012288008c00012490009400011e94009800012298009c000124a000a400011ea400a8000122a800ac000124ac00b0000129b000b4000127b800bc000124bc00c0000125c000c4000129c400c8000125c800d800011ddc00e000011be000e400011de400e8000120e800fc00011d00010401011b04010801011d08010c01011e10011401012014011801012218011c01012420012401012524012801012428013c01011d40014401011b44014801011d48014c01011e50015401012054015801012258015c01012460016401012564016801012768017c01012980018401011b84018801011d88018c01011e90019401012094019801012298019c010124a001a4010125a401a8010124a801bc01011dc001c401011bc401c8010119c801cc01011dcc01d001011bd001d401011ed401d801011dd801dc010120dc01e001011ee001e4010122e401e8010120e801ec010124ec01f0010122f001f4010125f401f8010124f801fa010129fa01fc01012afe010002012700020c02012910021c02012920022202012924022602012928022a0201292c022e02012930023202012909010e02026400000403780000040a000301000000640001c80000040100000000640001640000040100000000fa0004af00000401c80000040a00019600000414000501006400140005010000002c0104dc00000401fa0000040a0001c8000004140005d0076400140005d0070000c800029001f40105c201f4010a0005900114001400039001000005c201f4010500058403050032000584030000fa00049001000005c201f4010500058403c80032000584030500640005840300009001049001000005c201f4010500058403c80064000584030500c8000584030000f40105ac0d000404a00f00000a0004ac0d2003010004a00f0000280004ac0d9001010004a00f0000280002d00700040408070f0064000408070000c80003c800c8000e7d00c80019000e64000f0032000e78000000fa00032c01c8000ee100c80019000ec8000f0032000edc000000fa0003f401c8000ea901c80019000e90010f0032000ea4010000fa0001c8000004014b000000c800012c01000401c8000000c8000190010004012c010000c80002c800000404c8000f0064000496000000c80002c2010004045e010f006400042c010000640002c409000404c4096400960004f6090000f40102b80b000404b80b64002c0104f40b0000f401022003000004200300040a000420030000ea01029001000004900100040a000490010000900102d007000410d0076400960010d0070000c800160200000100010e10001100010e20002100010e30003100010e40004100010e48004900010f50005100010e58005900010f60006100010e68006900010f70007100010e78007900010f80008100010e90009100010ea000a100010eb000b100010ec000c100010ec800c900010fd000d100010ed800d900010fe000e100010ee800e900010ff000f100010ef800f900010f00010101010e04010501010f08010901010e0c010d01010f10011101010e14011501010f18011901010e1c011d01010f20012101010e24012501010f28012901010e2c012d01010f30013101010e34013501010f38013901010e3c013d01010f40014101010e44014501010f48014901010e4c014d01010f50015101010e54015501010f58015901010e5c015d01010f60016101010e64016501010f68016901010e6c016d01010f70017101010e74017501010f78017901010e7c017d01010f80018101010e84018501010f88018901010e8c018d01010f90019101010e94019501010f98019901010e9c019d01010fa001a101010ea401a501010fa801a901010eac01ad01010fb001b101010eb401b501010fb801b901010ebc01bd01010fc001c101010ec801c901010fd001d101010ed801d901010fe001e101010ee801e901010ff001f101010ef801f901010f00020102010e08020902010e10021102010e18021902010e20022102010e24022502010e28022902010e2c022d02010e30023102010e`), music.PlaybackMode.LoopingInBackground)
 mySprite = sprites.create(img`
     . . . . . . f f f f . . . . . . 
     . . . . f f f 2 2 f f f . . . . 
@@ -600,6 +756,7 @@ mySprite = sprites.create(img`
     . . . . . f f f f f f . . . . . 
     . . . . . f f . . f f . . . . . 
     `, SpriteKind.Player)
+info.setLife(5)
 animation.runImageAnimation(
 mySprite,
 [img`
@@ -676,6 +833,7 @@ true
 )
 controller.moveSprite(mySprite)
 GotSword = 0
+GotShield = 0
 tiles.setTilemap(tilemap`level_0`)
 tiles.placeOnRandomTile(mySprite, assets.tile`transparency16`)
 scene.cameraFollowSprite(mySprite)
@@ -1179,3 +1337,69 @@ true
 )
 tiles.placeOnTile(myEnemyBoss, tiles.getTileLocation(28, 3))
 BossSize = 0
+myShield = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . f f f f f f f f f f . . . 
+    . . . f e e e e e e e e f . . . 
+    . . f f f f f f f f f f f f . . 
+    . f f 7 7 7 7 7 7 7 7 7 7 f f . 
+    . f 7 7 e e e 4 4 e e e 7 7 f . 
+    . f 7 e e e e 4 4 e e e e 7 f . 
+    . f 7 e e 4 4 4 4 4 4 e e 7 f . 
+    . f 7 e e 4 4 4 4 4 4 e e 7 f . 
+    . f 7 7 e e e 4 4 e e e 7 7 f . 
+    . f f 7 e e e 4 4 e e e 7 f f . 
+    . . f 7 7 e e 4 4 e e 7 7 f . . 
+    . . f f 7 e e e e e e 7 f f . . 
+    . . . f 7 7 7 7 7 7 7 7 f . . . 
+    . . . f f f f f f f f f f . . . 
+    `, SpriteKind.Shield)
+tiles.placeOnTile(myShield, tiles.getTileLocation(11, 14))
+game.onUpdateInterval(5000, function () {
+    if (PlayerInvincible == 1) {
+        PlayerInvincible = 0
+    }
+})
+game.onUpdateInterval(3000, function () {
+    if (ProjectileOn == 1) {
+        EnemyFire = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . 4 4 4 4 . . . . . . 
+            . . . . 4 4 4 5 5 4 4 4 . . . . 
+            . . . 3 3 3 3 4 4 4 4 4 4 . . . 
+            . . 4 3 3 3 3 2 2 2 1 1 4 4 . . 
+            . . 3 3 3 3 3 2 2 2 1 1 5 4 . . 
+            . 4 3 3 3 3 2 2 2 2 2 5 5 4 4 . 
+            . 4 3 3 3 2 2 2 4 4 4 4 5 4 4 . 
+            . 4 4 3 3 2 2 4 4 4 4 4 4 4 4 . 
+            . 4 2 3 3 2 2 4 4 4 4 4 4 4 4 . 
+            . . 4 2 3 3 2 4 4 4 4 4 2 4 . . 
+            . . 4 2 2 3 2 2 4 4 4 2 4 4 . . 
+            . . . 4 2 2 2 2 2 2 2 2 4 . . . 
+            . . . . 4 4 2 2 2 2 4 4 . . . . 
+            . . . . . . 4 4 4 4 . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, myEnemy3, randint(25, 75), randint(0, 100))
+    }
+    if (BossProjectileOn == 1) {
+        BossFire = sprites.createProjectileFromSprite(img`
+            . . . . . . . . . c c 8 . . . . 
+            . . . . . . 8 c c c f 8 c c . . 
+            . . . c c 8 8 f c a f f f c c . 
+            . . c c c f f f c a a f f c c c 
+            8 c c c f f f f c c a a c 8 c c 
+            c c c b f f f 8 a c c a a a c c 
+            c a a b b 8 a b c c c c c c c c 
+            a f c a a b b a c c c c c f f c 
+            a 8 f c a a c c a c a c f f f c 
+            c a 8 a a c c c c a a f f f 8 a 
+            . a c a a c f f a a b 8 f f c a 
+            . . c c b a f f f a b b c c 6 c 
+            . . . c b b a f f 6 6 a b 6 c . 
+            . . . c c b b b 6 6 a c c c c . 
+            . . . . c c a b b c c c . . . . 
+            . . . . . c c c c c c . . . . . 
+            `, myEnemyBoss, randint(-25, -75), randint(0, 100))
+    }
+})
