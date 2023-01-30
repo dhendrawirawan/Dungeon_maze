@@ -1,26 +1,96 @@
 namespace SpriteKind {
     export const Sword = SpriteKind.create()
+    export const EnemyBoss = SpriteKind.create()
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.EnemyBoss, function (sprite, otherSprite) {
+    if (SwordUp == 1) {
+        BossSize += 1
+        myEnemyBoss.changeScale(0.01, ScaleAnchor.Middle)
+        myEnemyBoss.x += randint(-10, 10)
+        myEnemyBoss.y += randint(-10, 10)
+        if (BossSize > 50) {
+            myEnemyBoss.destroy(effects.fire, 5000)
+        }
+    } else {
+        animation.runImageAnimation(
+        mySprite,
+        [img`
+            . . . . . . f f f f . . . . . . 
+            . . . . f f f 2 2 f f f . . . . 
+            . . . f f f 2 2 2 2 f f f . . . 
+            . . f f f e e e e e e f f f . . 
+            . . f f e 2 2 2 2 2 2 e e f . . 
+            . . f e 2 f f f f f f 2 e f . . 
+            . . f f f f e e e e f f f f . . 
+            . f f e f b f 4 4 f b f e f f . 
+            . f e e 4 1 f d d f 1 4 e e f . 
+            . . f f f f d d d d d e e f . . 
+            . f d d d d f 4 4 4 e e f . . . 
+            . f b b b b f 2 2 2 2 f 4 e . . 
+            . f b b b b f 2 2 2 2 f d 4 . . 
+            . . f c c f 4 5 5 4 4 f 4 4 . . 
+            . . . f f f f f f f f . . . . . 
+            . . . . . f f . . f f . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . f f f f . . . . . . 
+            . . . . f f f 2 2 f f f . . . . 
+            . . . f f f 2 2 2 2 f f f . . . 
+            . . f f f e e e e e e f f f . . 
+            . . f f e 2 2 2 2 2 2 e e f . . 
+            . f f e 2 f f f f f f 2 e f f . 
+            . f f f f f e e e e f f f f f . 
+            . . f e f b f 4 4 f b f e f . . 
+            . f f e 4 1 f d d f 1 4 e f . . 
+            f d f f e 4 d d d d 4 e f e . . 
+            f b f e f 2 2 2 2 e d d 4 e . . 
+            f b f 4 f 2 2 2 2 e d d e . . . 
+            f c f . f 4 4 5 5 f e e . . . . 
+            . f f . f f f f f f f . . . . . 
+            . . . . f f f . . . . . . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . f f f f . . . . . . 
+            . . . . f f f 2 2 f f f . . . . 
+            . . . f f f 2 2 2 2 f f f . . . 
+            . . f f f e e e e e e f f f . . 
+            . . f e e 2 2 2 2 2 2 e f f . . 
+            . f f e 2 f f f f f f 2 e f f . 
+            . f f f f f e e e e f f f f f . 
+            . . f e f b f 4 4 f b f e f . . 
+            . . f e 4 1 f d d f 1 4 e f . . 
+            . . e f f f f d d d 4 e f . . . 
+            . . f d d d d f 2 2 2 f e f . . 
+            . . f b b b b f 2 2 2 f 4 e . . 
+            . . f b b b b f 5 4 4 f . . . . 
+            . . . f c c f f f f f f . . . . 
+            . . . . f f . . . f f f . . . . 
+            `,img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . f f f f . . . . . . 
+            . . . . f f f 2 2 f f f . . . . 
+            . . . f f f 2 2 2 2 f f f . . . 
+            . . f f f e e e e e e f f f . . 
+            . . f e e 2 2 2 2 2 2 e f f . . 
+            . f f e 2 f f f f f f 2 e f f . 
+            . f f f f f e e e e f f f f f . 
+            . . f e f b f 4 4 f b f e f . . 
+            . . f e 4 1 f d d f 1 4 e f f . 
+            . . e f e 4 d d d d 4 e f f d f 
+            . . e 4 d d e 2 2 2 2 f e f b f 
+            . . . e d d e 2 2 2 2 f 4 f b f 
+            . . . . e e f 5 5 4 4 f . f c f 
+            . . . . . f f f f f f f . f f . 
+            . . . . . . . . . f f f . . . . 
+            `],
+        500,
+        false
+        )
+        info.changeLifeBy(-1)
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, sprites.swamp.swampTile2, function (sprite, location) {
     myEnemyBoss.follow(mySprite, 25)
-    EnemyFire = sprites.createProjectileFromSprite(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . c c . . . . . . . . 
-        . . . . c a f b c . . . . . . . 
-        . . . . b f f b c c . . . . . . 
-        . . . a a f b a b a c . . . . . 
-        . . . c a c b b f f b . . . . . 
-        . . . . b f f b f a b . . . . . 
-        . . . . a f f b b b a . . . . . 
-        . . . . . a b b c c . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, myEnemyBoss, randint(-25, -75), randint(-50, 50))
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.builtin.forestTiles25, function (sprite, location) {
     game.over(true)
@@ -501,8 +571,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         otherSprite.destroy(effects.disintegrate, 500)
     }
 })
-let SwordUp = 0
 let EnemyFire: Sprite = null
+let SwordUp = 0
+let BossSize = 0
 let myEnemyBoss: Sprite = null
 let myEnemy3: Sprite = null
 let mySword: Sprite = null
@@ -510,6 +581,7 @@ let myEnemy2: Sprite = null
 let MyEnemy: Sprite = null
 let GotSword = 0
 let mySprite: Sprite = null
+music.play(music.createSong(hex`0064000408040105001c000f0a006400f4010a0000040000000000000000000000000000000002c00000001200012212001400012214001600012216001800012218001a0001221c001e0001201e00280001222a002c0001222c002e0001222e003000012230003200012234003600012036004000012242004400012244004600012246004800012248004a00011d4c004e00011d4e005000011d52005400011d54005600011d58005a00011d5a005c00011d5e006000011d60006600012266006c00011d6c006e00011d6e007000011e700072000120720074000122740076000127760080000129`), music.PlaybackMode.LoopingInBackground)
 mySprite = sprites.create(img`
     . . . . . . f f f f . . . . . . 
     . . . . f f f 2 2 f f f . . . . 
@@ -948,7 +1020,7 @@ myEnemyBoss = sprites.create(img`
     ...............cdc.....ccc................................cccccdddccddddcddcc
     ...............cc...........................................ccccdddccccdccccc
     ...............................................................ccccc..ccc....
-    `, SpriteKind.Enemy)
+    `, SpriteKind.EnemyBoss)
 animation.runImageAnimation(
 myEnemyBoss,
 [img`
@@ -1106,3 +1178,4 @@ myEnemyBoss,
 true
 )
 tiles.placeOnTile(myEnemyBoss, tiles.getTileLocation(28, 3))
+BossSize = 0
